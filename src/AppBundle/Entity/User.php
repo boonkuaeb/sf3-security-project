@@ -26,10 +26,19 @@ class User implements UserInterface
      */
     private $id;
 
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
     /**
      * @ORM\Column(type="string", unique=true)
      */
     private $email;
+
+    private $plainPassword;
+
 
     public function getUsername()
     {
@@ -43,19 +52,53 @@ class User implements UserInterface
 
     public function getPassword()
     {
-        // TODO: Implement getPassword() method.
+        return $this->password;
     }
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+
     }
 
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+       $this->plainPassword = null;
     }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        // forces the object to look "dirty" to Doctrine. Avoids
+        // Doctrine *not* saving this entity, if only plainPassword changes
+        $this->password = null;
+    }
+
 
 
 }
