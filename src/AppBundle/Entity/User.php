@@ -43,7 +43,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Registration"})
      */
     private $plainPassword;
 
