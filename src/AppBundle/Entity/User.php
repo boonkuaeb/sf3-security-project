@@ -42,7 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json_array")
      */
-    private $roles;
+    private $roles=[];
 
 
     public function getUsername()
@@ -68,7 +68,6 @@ class User implements UserInterface
     {
 
     }
-
 
     public function eraseCredentials()
     {
@@ -112,5 +111,4 @@ class User implements UserInterface
     {
         $this->roles = $roles;
     }
-
 }
