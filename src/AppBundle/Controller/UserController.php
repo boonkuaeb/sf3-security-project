@@ -25,8 +25,7 @@ class UserController extends Controller
         $form = $this->createForm(UserRegistrationForm::class);
         $form->handleRequest($request);
 
-        if($form->isValid())
-        {
+        if ($form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
 
@@ -34,9 +33,15 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success','Welcome '.$user->getEmail());
+            $this->addFlash('success', 'Welcome ' . $user->getEmail());
 
-            return $this->redirectToRoute('homepage');
+            return $this->get('security.authentication.guard_handler')
+                ->authenticateUserAndHandleSuccess(
+                    $user,
+                    $request,
+                    $this->get('app.security.login_form_authenticator'),
+                    'main'
+                );
         }
 
         return $this->render(
@@ -44,6 +49,6 @@ class UserController extends Controller
             [
                 'form' => $form->createView()
             ]
-            );
+        );
     }
 }
